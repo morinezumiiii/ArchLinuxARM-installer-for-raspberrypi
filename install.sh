@@ -5,7 +5,6 @@
 #
 [ -z "${1+x}" ]
 ret=${?}
-echo ${ret}
 if [ ${ret} -eq 0 ]; then
     echo "SDCard device path is not set."
     exit 1
@@ -20,7 +19,6 @@ ROOT_PARTITION_PATH=${SDCARD_PATH}2
 #
 [ -z "${2+x}" ]
 ret=${?}
-echo ${ret}
 if [ ${ret} -eq 0 ]; then
     echo IP Address is not set for systemd-networkd.
     exit 1
@@ -43,30 +41,30 @@ fi
 #
 # Create Arch Linux ARM on SDCard.
 #
-#mkdir boot root
+mkdir boot root
 echo "Create filesystem and bootloader on SDCARD."
 
-#mkfs.vfat ${BOOT_PARTITION_PATH}
-#mount ${BOOT_PARTITION_PATH} boot
-#mkfs.f2fs ${ROOT_PARTITION_PATH}
-#mount ${ROOT_PARTITION_PATH} root
-#bsdtar -xpf ${IMAGE_FILE_PATH} -C root
-#sync
+mkfs.vfat ${BOOT_PARTITION_PATH}
+mount ${BOOT_PARTITION_PATH} boot
+mkfs.f2fs ${ROOT_PARTITION_PATH}
+mount ${ROOT_PARTITION_PATH} root
+bsdtar -xpf ./${IMAGE_FILE_NAME} -C root
+sync
 
-#mv root/boot/* boot
+mv root/boot/* boot
 
 #
 # Settings
 #
 echo "Setting static ip address for systemd-networkd. ${IP_ADDRESS}"
-#cp -f ./settings/systemd-networkd/eth0.network.$2 root/etc/systemd/network/eth0.network
+cp -f ./settings/systemd-networkd/eth0.network.$2 root/etc/systemd/network/eth0.network
 
 #
 # Finalize
 #
-#umount boot root
-#rm -rf boot root
-#rm ${IMAGE_FILE_NAME}
+umount boot root
+rm -rf boot root
+#rm ${IMAGE_FILE_NAME} <-- better not delete...?
 
 echo "Done!"
 echo "Please remove SDCard, and insert your Raspberry Pi. Enjoy!"
