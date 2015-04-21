@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#
+##
 # Check SDCard device path.
 #
 [ -z "${1+x}" ]
@@ -37,6 +37,33 @@ else
     echo "Download latest image..."
     wget ${IMAGE_URL}
 fi
+
+#
+# Create Arch Linux ARM on SDCard.
+#
+
+echo "Create partition on SDCARD."
+
+fdisk ${SDCARD_PATH} <<\__EOF__
+o
+n
+p
+1
+
++100M
+t
+c
+a
+n
+p
+2
+
+
+t
+83
+w
+__EOF__
+
 
 #
 # Create Arch Linux ARM on SDCard.
