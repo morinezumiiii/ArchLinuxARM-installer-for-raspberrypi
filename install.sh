@@ -60,6 +60,7 @@ p
 
 
 t
+2
 83
 w
 __EOF__
@@ -83,6 +84,9 @@ mv root/boot/* boot
 #
 # Settings
 #
+echo "Copy initial setup script file."
+cp -f ./settings/setup.sh root/setup.sh
+
 echo "Setting static ip address for systemd-networkd. ${IP_ADDRESS}"
 cp -f ./settings/systemd-networkd/eth0.network.$2 root/etc/systemd/network/eth0.network
 
