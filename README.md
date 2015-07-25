@@ -2,24 +2,29 @@
 
 Arch Linux ARM Install automation script for Raspberry Pi.
 
+# Requirements
+
+* bsdtar
+* dosfs-tools
+* f2fs-tools
+
 # Usage
 
 1. Insert your SDCard in host linux machine.
-2. Create partitions with fdisk command.
-3. Run install.sh 
+2. Run install.sh with arguments.
 
 ```
-$ sudo ./install.sh [sdcard device path] [IP address]
+$ sudo ./install.sh [sdcard device path] [IP address(IPv4)] [Gateway] [DNS]
 ```
 
 example
 
 ```
-$ sudo ./install.sh /dev/sdb 192.168.10.11
+$ sudo ./install.sh /dev/sdb 192.168.43.11 192.168.43.1 192.168.43.1
 ```
 
-4. Remove SDCard, insert your Raspberry Pi, and power on.
-5 Connect Raspberry Pi via SSH, 
+3. Remove SDCard, insert your Raspberry Pi, and power on.
+4 Connect Raspberry Pi via SSH, 
 
 
 # More info
@@ -27,7 +32,3 @@ $ sudo ./install.sh /dev/sdb 192.168.10.11
 Please read official site.
 
 http://archlinuxarm.org/platforms/armv6/raspberry-pi
-
-# issues
-
-* network setting instraction is too bad... :p

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ##
 # Check SDCard device path.
@@ -15,7 +15,7 @@ BOOT_PARTITION_PATH=${SDCARD_PATH}1
 ROOT_PARTITION_PATH=${SDCARD_PATH}2
 
 #
-# Check IP address.
+# Check NIC IP address.
 #
 [ -z "${2+x}" ]
 ret=${?}
@@ -24,6 +24,33 @@ if [ ${ret} -eq 0 ]; then
     exit 1
 fi
 echo IP Address is $2
+
+#
+# Check NIC gateway address.
+#
+[ -z "${3+x}" ]
+ret=${?}
+if [ ${ret} -eq 0 ]; then
+    echo NIC gateway Address is not set for systemd-networkd.
+    exit 1
+fi
+echo Gateway address is $3
+
+#
+# Check NIC DNS address.
+#
+[ -z "${4+x}" ]
+ret=${?}
+if [ ${ret} -eq 0 ]; then
+    echo NIC DNS Address is not set for systemd-networkd.
+    exit 1
+fi
+echo DNS Address is $4
+
+NIC_CONFIG_PATH=root/etc/systemd/network/eth0.network
+NIC_IPADDR=$2
+NIC_GATEWAY=$3
+NIC_DNS=$4
 
 #
 # Check and download Arch Linux ARM image.
@@ -65,6 +92,7 @@ t
 w
 __EOF__
 
+sleep 2
 
 #
 # Create Arch Linux ARM on SDCard.
@@ -73,8 +101,10 @@ mkdir boot root
 echo "Create filesystem and bootloader on SDCARD."
 
 mkfs.vfat ${BOOT_PARTITION_PATH}
+sleep 2s
 mount ${BOOT_PARTITION_PATH} boot
 mkfs.f2fs ${ROOT_PARTITION_PATH}
+sleep 2s
 mount ${ROOT_PARTITION_PATH} root
 bsdtar -xpf ./${IMAGE_FILE_NAME} -C root
 sync
@@ -87,8 +117,20 @@ mv root/boot/* boot
 echo "Copy initial setup script file."
 cp -f ./settings/setup.sh root/setup.sh
 
-echo "Setting static ip address for systemd-networkd. ${IP_ADDRESS}"
-cp -f ./settings/systemd-networkd/eth0.network.$2 root/etc/systemd/network/eth0.network
+echo "Setting static ip address for systemd-networkd."
+echo NIC IP address is ${NIC_IPADDR}
+echo NIC Gateway address is ${NIC_GATEWAY}
+echo NIC DNS address is ${NIC_DNS}
+
+echo "[Match]" > ${NIC_CONFIG_PATH}
+echo "Name=eth0" >> ${NIC_CONFIG_PATH}
+echo "[Network]" >> ${NIC_CONFIG_PATH}
+echo "DHCP=none" >> ${NIC_CONFIG_PATH}
+echo "DNS=${NIC_DNS}" >> ${NIC_CONFIG_PATH}
+echo "[Address]" >> ${NIC_CONFIG_PATH}
+echo "Address=${NIC_IPADDR}/24" >> ${NIC_CONFIG_PATH}
+echo "[Route]" >> ${NIC_CONFIG_PATH}
+echo "Gateway=${NIC_GATEWAY}" >> ${NIC_CONFIG_PATH}
 
 #
 # Finalize
