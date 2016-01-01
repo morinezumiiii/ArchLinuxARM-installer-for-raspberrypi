@@ -53,9 +53,26 @@ NIC_GATEWAY=$3
 NIC_DNS=$4
 
 #
+# Check Raspberry Pi Model 1 or 2.
+#
+[ -z "${5+x}" ]
+ret=${?}
+if [ ${ret} -eq 0 ]; then
+    MODEL_NUM=1
+else
+    MODEL_NUM=2
+fi
+echo MODEL_NUM is $MODEL_NUM
+
+#
 # Check and download Arch Linux ARM image.
 #
-IMAGE_FILE_NAME=ArchLinuxARM-rpi-latest.tar.gz
+
+if [ ${MODEL_NUM} = 1 ]; then
+    IMAGE_FILE_NAME=ArchLinuxARM-rpi-latest.tar.gz
+else
+    IMAGE_FILE_NAME=ArchLinuxARM-rpi-2-latest.tar.gz
+fi
 IMAGE_URL=http://archlinuxarm.org/os/${IMAGE_FILE_NAME}
 if [ -f "./${IMAGE_FILE_NAME}" ]; then
     echo "${IMAGE_FILE_NAME} found."
