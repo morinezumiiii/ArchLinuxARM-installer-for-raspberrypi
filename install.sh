@@ -53,26 +53,28 @@ NIC_GATEWAY=$3
 NIC_DNS=$4
 
 #
-# Check Raspberry Pi Model 1 or 2.
+# Check Raspberry Pi Model.
 #
-[ -z "${5+x}" ]
-ret=${?}
-if [ ${ret} -eq 0 ]; then
-    MODEL_NUM=1
-else
-    MODEL_NUM=2
-fi
+case $5 in
+  "1" )  MODEL_NUM=1 ;;
+  "2" )  MODEL_NUM=2 ;;
+  "3" )  MODEL_NUM=3 ;;
+  "4" )  MODEL_NUM=4 ;;
+  * )    MODEL_NUM=4 ;;
+esac
 echo MODEL_NUM is $MODEL_NUM
 
 #
 # Check and download Arch Linux ARM image.
 #
 
-if [ ${MODEL_NUM} = 1 ]; then
-    IMAGE_FILE_NAME=ArchLinuxARM-rpi-latest.tar.gz
-else
-    IMAGE_FILE_NAME=ArchLinuxARM-rpi-2-latest.tar.gz
-fi
+case ${MODEL_NUM} in
+  1 ) IMAGE_FILE_NAME=ArchLinuxARM-rpi-latest.tar.gz ;;
+  2 ) IMAGE_FILE_NAME=ArchLinuxARM-rpi-2-latest.tar.gz ;;
+  3 ) IMAGE_FILE_NAME=ArchLinuxARM-rpi-2-latest.tar.gz ;;
+  4 ) IMAGE_FILE_NAME=ArchLinuxARM-rpi-4-latest.tar.gz ;;
+  * )   IMAGE_FILE_NAME=ArchLinuxARM-rpi-4-latest.tar.gz ;;
+esac
 IMAGE_URL=http://archlinuxarm.org/os/${IMAGE_FILE_NAME}
 if [ -f "./${IMAGE_FILE_NAME}" ]; then
     echo "${IMAGE_FILE_NAME} found."
