@@ -14,13 +14,13 @@ Arch Linux ARM Install automation script for Raspberry Pi.
 2. Run install.sh with arguments.
 
 ```
-$ sudo ./install.sh [sdcard device path] [IP address(IPv4)] [Gateway] [DNS] [Raspberry Pi Model(1 or 2)]
+$ sudo ./install.sh [sdcard device path] [IP address(IPv4)] [Gateway] [DNS] [Raspberry Pi Model(1|2|3|4)]
 ```
 
 example
 
 ```
-$ sudo ./install.sh /dev/sdb 192.168.43.11 192.168.43.1 192.168.43.1 2
+$ sudo ./install.sh /dev/sdb 192.168.43.11 192.168.43.1 192.168.43.1 4
 ```
 
 3. Remove SDCard, insert your Raspberry Pi, and power on.
@@ -31,5 +31,7 @@ $ sudo ./install.sh /dev/sdb 192.168.43.11 192.168.43.1 192.168.43.1 2
 
 Please read official site.
 
-http://archlinuxarm.org/platforms/armv6/raspberry-pi
-http://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2
+https://archlinuxarm.org/platforms/armv6/raspberry-pi
+https://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2
+https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
+https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4
