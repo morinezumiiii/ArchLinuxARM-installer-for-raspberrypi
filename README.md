@@ -32,6 +32,9 @@ $ sudo ./install.sh /dev/sdb 192.168.43.11 192.168.43.1 192.168.43.1 4
 Please read official site.
 
 https://archlinuxarm.org/platforms/armv6/raspberry-pi
+
 https://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2
+
 https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-3
+
 https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4
